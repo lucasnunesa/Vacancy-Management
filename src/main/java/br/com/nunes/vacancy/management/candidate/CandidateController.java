@@ -1,5 +1,6 @@
 package br.com.nunes.vacancy.management.candidate;
 
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -15,7 +16,7 @@ public class CandidateController {
     private CandidateService candidateService;
 
     @PostMapping
-    public ResponseEntity<Object> addCandidate(@RequestBody Candidate candidate) {
+    public ResponseEntity<Object> addCandidate(@RequestBody @Valid Candidate candidate) {
        try {
            Candidate result = this.candidateService.addCandidate(candidate);
            return ResponseEntity.ok(result);
