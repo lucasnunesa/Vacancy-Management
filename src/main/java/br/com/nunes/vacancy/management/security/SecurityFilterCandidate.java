@@ -1,6 +1,6 @@
 package br.com.nunes.vacancy.management.security;
 
-import br.com.nunes.vacancy.management.providers.JWTProvider;
+import br.com.nunes.vacancy.management.providers.JWTProviderCandidate;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -14,40 +14,42 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
+import java.util.Collections;
 import java.util.List;
+import java.util.UUID;
 
 @Component
-public class SecurityFilter extends OncePerRequestFilter {
+public class SecurityFilterCandidate extends OncePerRequestFilter {
 
     @Autowired
-    private JWTProvider jwtProvider;
+    private JWTProviderCandidate jwtProviderCandidate;
 
     @Override
-    protected void doFilterInternal(HttpServletRequest request,
-                                    HttpServletResponse response,
-                                    FilterChain filterChain) throws ServletException, IOException {
+    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
 
-        String token = request.getHeader("Authorization");
+        String header = request.getHeader("Authorization");
 
-        if (request.getRequestURI().startsWith("/company")) {
+        if (request.getRequestURI().startsWith("/candidate")) {
 
-            if (token != null) {
-                DecodedJWT subjectToken = this.jwtProvider.validateToken(token);
+            if (header != null) {
+                DecodedJWT decodedJWT = this.jwtProviderCandidate.validateToken(header);
 
-                if (subjectToken == null) {
+                if (decodedJWT == null) {
                     response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
                     response.getWriter().write("Invalid token");
                     return;
                 }
-                request.setAttribute("company_id", subjectToken.getSubject());
 
-                List<String> roles = subjectToken.getClaim("roles").asList(String.class);
+                request.setAttribute("candidate_id", UUID.fromString(decodedJWT.getSubject()));
+
+                List<Object> roles = decodedJWT.getClaim("roles").asList(Object.class);
+
                 List<SimpleGrantedAuthority> grants = roles.stream()
-                        .map(role -> new SimpleGrantedAuthority("ROLE_" + role.toUpperCase()))
+                        .map(role -> new SimpleGrantedAuthority("ROLE_" + role.toString().toUpperCase()))
                         .toList();
 
-                UsernamePasswordAuthenticationToken authentication =
-                        new UsernamePasswordAuthenticationToken(subjectToken.getSubject(), null, grants);
+                UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken
+                        (decodedJWT.getSubject(), null, grants);
                 SecurityContextHolder.getContext().setAuthentication(authentication);
             }
         }
