@@ -2,29 +2,29 @@ package br.com.nunes.vacancy.management.providers;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
-import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
-@Component
-public class JWTProvider {
+@Service
+public class JWTProviderCandidate {
 
-    @Value("${security.token.secret}")
+    @Value("${security.token.secret.candidate}")
     private String secret;
 
     public DecodedJWT validateToken(String token) {
-        token = token.substring(7);
+
+        String subjectToken = token.replace("Bearer ", "");
 
         Algorithm algorithm = Algorithm.HMAC256(secret);
 
         try {
-            DecodedJWT tokenDecoded = JWT.require(algorithm)
+            DecodedJWT decodedJWT = JWT.require(algorithm)
                     .build()
-                    .verify(token);
+                    .verify(subjectToken);
 
-            return tokenDecoded;
-        } catch (JWTVerificationException e) {
+            return decodedJWT;
+        } catch (Exception e) {
             e.printStackTrace();
             return null;
         }
