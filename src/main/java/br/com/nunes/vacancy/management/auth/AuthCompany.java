@@ -2,7 +2,8 @@ package br.com.nunes.vacancy.management.auth;
 
 import br.com.nunes.vacancy.management.company.Company;
 import br.com.nunes.vacancy.management.company.CompanyRepository;
-import br.com.nunes.vacancy.management.dto.AuthCompanyDTO;
+import br.com.nunes.vacancy.management.dto.AuthCompanyRequestDTO;
+import br.com.nunes.vacancy.management.dto.AuthCompanyResponseDTO;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,13 +13,16 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.sql.Time;
 import java.time.Duration;
 import java.time.Instant;
+import java.util.Date;
+import java.util.List;
 
 @Service
 public class AuthCompany {
 
-    @Value("security.token.secret")
+    @Value("${security.token.secret}")
     private String secret;
 
     @Autowired
@@ -27,14 +31,14 @@ public class AuthCompany {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-    public String auth(AuthCompanyDTO authCompanyDTO) {
-        Company company = this.companyRepository.findByUsername(authCompanyDTO.getUsername());
+    public AuthCompanyResponseDTO auth(AuthCompanyRequestDTO authCompanyRequestDTO) {
+        Company company = this.companyRepository.findByUsername(authCompanyRequestDTO.getUsername());
 
         if (company == null) {
             throw new UsernameNotFoundException("Username not found");
         }
 
-        boolean password = this.passwordEncoder.matches(authCompanyDTO.getPassword(), company.getPassword());
+        boolean password = this.passwordEncoder.matches(authCompanyRequestDTO.getPassword(), company.getPassword());
 
         if (!password) {
             throw new BadCredentialsException("Bad credentials");
@@ -42,11 +46,19 @@ public class AuthCompany {
 
         Algorithm algorithm = Algorithm.HMAC256(secret);
 
+        Instant expirationTime = Instant.now().plus(Duration.ofHours(2));
+
         String token = JWT.create().withIssuer("vacancy-manager")
-        .withExpiresAt(Instant.now().plus(Duration.ofHours(2)))
+        .withExpiresAt(expirationTime)
         .withSubject(company.getId().toString())
+        .withClaim("roles", List.of("COMPANY"))
         .sign(algorithm);
 
-        return token;
+        AuthCompanyResponseDTO response = AuthCompanyResponseDTO.builder()
+                .token(token)
+                .expirationTime(expirationTime)
+                .build();
+
+        return response;
     }
 }

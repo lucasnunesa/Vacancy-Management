@@ -14,6 +14,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.sql.Time;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.Arrays;
@@ -21,7 +22,7 @@ import java.util.Arrays;
 @Service
 public class AuthCandidate {
 
-    @Value("security.token.secret")
+    @Value("${security.token.secret.candidate}")
     private String secret;
 
     @Autowired
@@ -50,14 +51,17 @@ public class AuthCandidate {
 
         Algorithm algorithm = Algorithm.HMAC256(secret);
 
+        Instant expirationTime = Instant.now().plus(Duration.ofHours(2));
+
         String token = JWT.create().withIssuer("vacancy-manager")
                 .withExpiresAt(Instant.now().plus(Duration.ofHours(2)))
-                .withClaim("roles", Arrays.asList("ROLE_CANDIDATE"))
+                .withClaim("roles", Arrays.asList("CANDIDATE"))
                 .withSubject(candidate.getId().toString())
                 .sign(algorithm);
 
         AuthCandidateResponseDTO authResponse = AuthCandidateResponseDTO.builder()
         .token(token)
+        .expirationTime(expirationTime)
         .build();
 
         return authResponse;

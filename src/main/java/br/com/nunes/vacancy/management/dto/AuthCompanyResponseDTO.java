@@ -11,7 +11,7 @@ import java.time.Instant;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class AuthCandidateResponseDTO {
+public class AuthCompanyResponseDTO {
 
     private String token;
     private Instant expirationTime;

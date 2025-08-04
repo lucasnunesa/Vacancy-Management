@@ -2,7 +2,8 @@ package br.com.nunes.vacancy.management.auth;
 
 import br.com.nunes.vacancy.management.dto.AuthCandidateRequestDTO;
 import br.com.nunes.vacancy.management.dto.AuthCandidateResponseDTO;
-import br.com.nunes.vacancy.management.dto.AuthCompanyDTO;
+import br.com.nunes.vacancy.management.dto.AuthCompanyRequestDTO;
+import br.com.nunes.vacancy.management.dto.AuthCompanyResponseDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,9 +23,9 @@ public class AuthController {
     private AuthCandidate authCandidate;
 
     @PostMapping("/company")
-    public ResponseEntity<Object> authCompany(@RequestBody final AuthCompanyDTO authCompanyDto) {
+    public ResponseEntity<Object> authCompany(@RequestBody final AuthCompanyRequestDTO authCompanyRequestDto) {
         try{
-            String result = this.authCompany.auth(authCompanyDto);
+            AuthCompanyResponseDTO result = this.authCompany.auth(authCompanyRequestDto);
             return ResponseEntity.ok(result);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(e.getMessage());
