@@ -27,7 +27,12 @@ public class SecurityConfig {
                         auth.requestMatchers("/candidate").permitAll()
                         .requestMatchers("/company").permitAll()
                         .requestMatchers("/auth/company").permitAll()
-                        .requestMatchers("/auth/candidate").permitAll();
+                        .requestMatchers("/auth/candidate").permitAll()
+                        .requestMatchers("/swagger-ui/**").permitAll()
+                        .requestMatchers("/v3/api-docs/**").permitAll()
+                        .requestMatchers("/swagger-ui.html").permitAll()
+                        .requestMatchers("/webjars/**").permitAll()
+                        .requestMatchers("/h2-console/**").permitAll();
                         auth.anyRequest().authenticated();
                         })
                         .addFilterBefore(securityFilterCandidate, BasicAuthenticationFilter.class)
