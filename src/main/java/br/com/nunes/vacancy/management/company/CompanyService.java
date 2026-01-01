@@ -1,8 +1,11 @@
 package br.com.nunes.vacancy.management.company;
 
+import br.com.nunes.vacancy.management.exceptions.CompanyNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.util.UUID;
 
 @Service
 public class CompanyService {
@@ -19,5 +22,9 @@ public class CompanyService {
         company.setPassword(password);
 
         return companyRepository.save(company);
+    }
+
+    public Company getCompanyById (UUID id) {
+        return companyRepository.findById(id).orElseThrow(() -> new CompanyNotFoundException("Company not found"));
     }
 }
