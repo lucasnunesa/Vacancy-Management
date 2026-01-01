@@ -1,6 +1,7 @@
 package br.com.nunes.vacancy.management.candidate;
 
 import br.com.nunes.vacancy.management.dto.CandidateResponseDTO;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +30,7 @@ public class CandidateController {
 
     @GetMapping("/")
     @PreAuthorize("hasRole('CANDIDATE')")
+    @SecurityRequirement(name = "jwt_auth")
     public ResponseEntity<Object> getCandidateById(HttpServletRequest request) {
         String subject = request.getAttribute("candidate_id").toString();
         UUID authenticatedUserId = UUID.fromString(subject);
