@@ -29,7 +29,7 @@ public class SecurityFilter extends OncePerRequestFilter {
 
         String token = request.getHeader("Authorization");
 
-        if (request.getRequestURI().startsWith("/company")) {
+        if (request.getRequestURI().startsWith("/company") || request.getRequestURI().startsWith("/job/company")) {
 
             if (token != null) {
                 DecodedJWT subjectToken = this.jwtProvider.validateToken(token);

@@ -29,7 +29,7 @@ public class SecurityFilterCandidate extends OncePerRequestFilter {
 
         String header = request.getHeader("Authorization");
 
-        if (request.getRequestURI().startsWith("/candidate")) {
+        if (request.getRequestURI().startsWith("/candidate") || request.getRequestURI().startsWith("/job/candidate")) {
 
             if (header != null) {
                 DecodedJWT decodedJWT = this.jwtProviderCandidate.validateToken(header);
