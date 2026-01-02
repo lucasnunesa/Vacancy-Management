@@ -1,6 +1,6 @@
-package br.com.nunes.vacancy.management.jobs;
+package br.com.nunes.vacancy.management.modules.jobs;
 
-import br.com.nunes.vacancy.management.company.Company;
+import br.com.nunes.vacancy.management.modules.company.Company;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

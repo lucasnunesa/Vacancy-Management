@@ -1,4 +1,4 @@
-package br.com.nunes.vacancy.management.jobs;
+package br.com.nunes.vacancy.management.modules.jobs;
 
 import br.com.nunes.vacancy.management.exceptions.EmptyDescriptionException;
 import br.com.nunes.vacancy.management.exceptions.EmptyTitleException;

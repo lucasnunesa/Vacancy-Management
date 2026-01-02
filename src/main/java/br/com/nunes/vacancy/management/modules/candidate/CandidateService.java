@@ -1,4 +1,4 @@
-package br.com.nunes.vacancy.management.candidate;
+package br.com.nunes.vacancy.management.modules.candidate;
 
 import br.com.nunes.vacancy.management.dto.CandidateResponseDTO;
 import br.com.nunes.vacancy.management.exceptions.UserAlreadyExistException;

@@ -1,4 +1,4 @@
-package br.com.nunes.vacancy.management.company;
+package br.com.nunes.vacancy.management.modules.company;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 

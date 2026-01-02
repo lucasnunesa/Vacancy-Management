@@ -1,4 +1,4 @@
-package br.com.nunes.vacancy.management.candidate;
+package br.com.nunes.vacancy.management.modules.candidate;
 
 import br.com.nunes.vacancy.management.dto.CandidateResponseDTO;
 import io.swagger.v3.oas.annotations.Operation;

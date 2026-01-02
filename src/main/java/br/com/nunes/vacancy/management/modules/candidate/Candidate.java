@@ -1,4 +1,4 @@
-package br.com.nunes.vacancy.management.candidate;
+package br.com.nunes.vacancy.management.modules.candidate;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;

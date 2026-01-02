@@ -1,4 +1,4 @@
-package br.com.nunes.vacancy.management.candidate;
+package br.com.nunes.vacancy.management.modules.candidate;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 

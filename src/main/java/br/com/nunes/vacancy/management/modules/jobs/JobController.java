@@ -1,7 +1,7 @@
-package br.com.nunes.vacancy.management.jobs;
+package br.com.nunes.vacancy.management.modules.jobs;
 
-import br.com.nunes.vacancy.management.company.Company;
-import br.com.nunes.vacancy.management.company.CompanyService;
+import br.com.nunes.vacancy.management.modules.company.Company;
+import br.com.nunes.vacancy.management.modules.company.CompanyService;
 import br.com.nunes.vacancy.management.dto.JobRequestDTO;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;

@@ -1,4 +1,4 @@
-package br.com.nunes.vacancy.management.company;
+package br.com.nunes.vacancy.management.modules.company;
 
 import br.com.nunes.vacancy.management.exceptions.CompanyNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;

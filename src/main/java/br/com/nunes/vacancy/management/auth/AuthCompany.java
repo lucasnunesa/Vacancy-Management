@@ -1,7 +1,7 @@
 package br.com.nunes.vacancy.management.auth;
 
-import br.com.nunes.vacancy.management.company.Company;
-import br.com.nunes.vacancy.management.company.CompanyRepository;
+import br.com.nunes.vacancy.management.modules.company.Company;
+import br.com.nunes.vacancy.management.modules.company.CompanyRepository;
 import br.com.nunes.vacancy.management.dto.AuthCompanyRequestDTO;
 import br.com.nunes.vacancy.management.dto.AuthCompanyResponseDTO;
 import com.auth0.jwt.JWT;
@@ -13,10 +13,8 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.sql.Time;
 import java.time.Duration;
 import java.time.Instant;
-import java.util.Date;
 import java.util.List;
 
 @Service

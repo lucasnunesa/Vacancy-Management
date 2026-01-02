@@ -1,4 +1,4 @@
-package br.com.nunes.vacancy.management.company;
+package br.com.nunes.vacancy.management.modules.company;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;

@@ -1,10 +1,9 @@
 package br.com.nunes.vacancy.management.auth;
 
-import br.com.nunes.vacancy.management.candidate.Candidate;
-import br.com.nunes.vacancy.management.candidate.CandidateRepository;
+import br.com.nunes.vacancy.management.modules.candidate.Candidate;
+import br.com.nunes.vacancy.management.modules.candidate.CandidateRepository;
 import br.com.nunes.vacancy.management.dto.AuthCandidateRequestDTO;
 import br.com.nunes.vacancy.management.dto.AuthCandidateResponseDTO;
-import br.com.nunes.vacancy.management.exceptions.UserAlreadyExistException;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +13,6 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.sql.Time;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.Arrays;
