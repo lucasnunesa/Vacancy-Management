@@ -1,7 +1,13 @@
 package br.com.nunes.vacancy.management.modules.candidate;
 
 import br.com.nunes.vacancy.management.dto.CandidateResponseDTO;
+import br.com.nunes.vacancy.management.exceptions.JobNotFoundException;
 import br.com.nunes.vacancy.management.exceptions.UserAlreadyExistException;
+import br.com.nunes.vacancy.management.exceptions.UserNotFoundException;
+import br.com.nunes.vacancy.management.modules.applyjob.ApplyJob;
+import br.com.nunes.vacancy.management.modules.applyjob.ApplyJobRepository;
+import br.com.nunes.vacancy.management.modules.jobs.Job;
+import br.com.nunes.vacancy.management.modules.jobs.JobRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -17,6 +23,12 @@ public class CandidateService {
 
     @Autowired
     private PasswordEncoder passwordEncoder;
+
+    @Autowired
+    private JobRepository jobRepository;
+
+    @Autowired
+    private ApplyJobRepository applyJobRepository;
 
     public Candidate addCandidate (Candidate candidate) {
         validateUsername(candidate.getUsername());
@@ -42,6 +54,26 @@ public class CandidateService {
                 .build();
 
         return candidateDTO;
+    }
+
+    public ApplyJob candidateJobApplication (UUID candidateId, UUID jobId) {
+        Candidate candidate = candidateRepository.findById(candidateId)
+                .orElseThrow(() -> new UserNotFoundException("Candidate not found with id: " + candidateId));
+
+        validateCandidate(candidateId);
+
+        Job job = jobRepository.findById(jobId)
+                .orElseThrow(() -> new JobNotFoundException("Job not found with id: " + jobId));
+
+
+        ApplyJob applyJob = ApplyJob.builder()
+                .candidateId(candidate.getId())
+                .jobId(job.getId())
+                .build();
+
+        applyJobRepository.save(applyJob);
+
+        return applyJob;
     }
 
     private void validateUsername (String username) {

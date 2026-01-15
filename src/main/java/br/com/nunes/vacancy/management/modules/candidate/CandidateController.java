@@ -1,6 +1,7 @@
 package br.com.nunes.vacancy.management.modules.candidate;
 
 import br.com.nunes.vacancy.management.dto.CandidateResponseDTO;
+import br.com.nunes.vacancy.management.modules.applyjob.ApplyJob;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
@@ -61,4 +62,23 @@ public class CandidateController {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
+
+    @PostMapping("/apply/job")
+    @PreAuthorize("hasRole('CANDIDATE')")
+    @SecurityRequirement(name = "jwt_auth")
+    @Operation(summary = "Apply for a job", description = "Allows an authenticated candidate to apply for a specific job")
+    public ResponseEntity<Object> applyForJob(HttpServletRequest request,
+                                              @RequestBody @Valid
+                                              UUID jobId) {
+        String subject = request.getAttribute("candidate_id").toString();
+        UUID authenticatedUserId = UUID.fromString(subject);
+
+        try {
+            ApplyJob applyJob = this.candidateService.candidateJobApplication(authenticatedUserId, jobId);
+            return ResponseEntity.ok(applyJob);
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
 }
