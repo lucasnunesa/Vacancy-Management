@@ -42,7 +42,7 @@ public class CandidateService {
 
     public CandidateResponseDTO getAuthenticadeCandidate (UUID id) {
         Candidate candidate = candidateRepository.findById(id)
-                .orElseThrow(() -> new UsernameNotFoundException("Candidate not found with id: " + id));
+                .orElseThrow(() -> new UserNotFoundException("Candidate not found with id: " + id));
 
         validateCandidate(id);
 
