@@ -15,7 +15,7 @@ import org.springframework.security.web.authentication.www.BasicAuthenticationFi
 public class SecurityConfig {
 
     @Autowired
-    private SecurityFilter securityFilter;
+    private SecurityFilterCompany securityFilter;
 
     @Autowired
     private SecurityFilterCandidate securityFilterCandidate;
